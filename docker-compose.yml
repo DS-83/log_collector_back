@@ -1,0 +1,15 @@
+services:
+  log-collector:
+    image: log_collect
+    container_name: log_collect
+    restart: unless-stopped
+    volumes:
+      - ./config/:/app/config/:ro
+    env_file: .env
+    networks:
+      - caddy_caddy-internet
+    
+
+networks:
+  caddy_caddy-internet:
+    external: true

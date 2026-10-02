@@ -1,0 +1,18 @@
+app:
+  port: 8080
+
+context:
+  timeout: 10s
+
+session:
+  ttl: 600s
+
+cookie:
+  name: "session"
+  path: "/"
+  domain: ""
+  secure: true
+  httpOnly: true
+
+hasher:
+  cost: 10
