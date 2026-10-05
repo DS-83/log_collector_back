@@ -2,6 +2,7 @@
 
 [![Go](https://img.shields.io/github/go-mod/go-version/DS-83/log_collector_back)](https://go.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18%2B-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![CI](https://github.com/DS-83/log_collector_back/actions/workflows/ci.yml/badge.svg)](https://github.com/DS-83/log_collector_back/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/DS-83/log_collector_back)](LICENSE)
 
 A small, purpose-built HTTP event collector written in Go. It runs as a dedicated microservice next to a main web application, so application events and logs live in their own database instead of being mixed into the main one.
