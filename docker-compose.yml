@@ -1,3 +1,22 @@
+# EXAMPLE ONLY: this is a sample taken from one particular deployment, not a ready-made
+# production setup. Adapt it to your own infrastructure.
+#
+# Assumptions made by this example:
+#   - The image is built locally and tagged "log_collect" (docker build -t log_collect .).
+#   - HTTPS is terminated by Caddy, which runs as a separate compose project. Its network
+#     already exists (hence "external: true"), and the service joins it to be reachable by Caddy.
+#   - No ports are published to the host: only containers on that network can reach the service.
+#     Caddy proxies to it by container name, for example in the Caddyfile:
+#         logs.example.com {
+#             reverse_proxy log_collect:8080
+#         }
+#     (8080 is the app.port value from config.yml)
+#   - Secrets are passed through the .env file (DB_DSN), which must not be committed or baked into
+#     the image. The DSN has to point to a PostgreSQL instance reachable from this container.
+#     PostgreSQL itself is not part of this file.
+#   - Non-secret settings come from config/config.*.yml, mounted read-only, so they can be changed
+#     without rebuilding the image. Set APP_ENV=production in .env to use config.prod.yml.
+
 services:
   log-collector:
     image: log_collect
