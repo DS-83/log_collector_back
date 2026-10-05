@@ -16,9 +16,6 @@ const (
 	// App port
 	appPort = "app.port"
 
-	// DB
-	dataSourceName = "db.dsn"
-
 	// Context
 	ctxTimeout = "context.timeout"
 

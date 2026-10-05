@@ -1,18 +1,51 @@
+# Non-secret application settings.
+# The file is chosen by the APP_ENV environment variable:
+#   APP_ENV=production -> config/config.prod.yml
+#   anything else      -> config/config.dev.yml
+# The database connection string is NOT stored here. It is read from the DB_DSN environment variable (.env file).
+
 app:
+  # TCP port the HTTP server listens on (the address is built as ":8080").
   port: 8080
 
 context:
+  # Maximum time allowed for handling a single HTTP request.
+  # The same value is used in three places: the request context timeout (cancels in-flight DB queries),
+  # and the server's ReadTimeout and WriteTimeout.
+  # Format: Go duration (500ms, 10s, 1m). If unset or <= 0, the built-in default is used.
   timeout: 10s
 
 session:
+  # Lifetime of an admin UI session, counted from the moment of sign-in.
+  # It is used twice: as the session expiry stored in the database (sessions.expires_at)
+  # and as the Max-Age of the session cookie, so both expire together.
+  # 600s = 10 minutes. Format: Go duration (600s, 10m, 24h). If unset or <= 0, the built-in default is used.
   ttl: 600s
 
 cookie:
+  # Name of the cookie that holds the session token.
+  # The sign-in handler sets it and the auth middleware reads it, so both always use this one value.
   name: "session"
+
+  # URL path for which the browser sends the cookie. "/" means every route of the server.
   path: "/"
+
+  # Cookie domain. An empty string binds the cookie to the exact host that issued it (no subdomains).
+  # Set a domain only if the cookie must be shared between several subdomains.
   domain: ""
+
+  # true: the browser sends the cookie only over HTTPS. Must be true in production.
+  # For local development over plain HTTP set it to false, otherwise some browsers will drop the cookie.
   secure: true
-  httpOnly: true
+
+  # true: the cookie is not accessible from JavaScript (document.cookie),
+  # which protects the session token from theft via XSS. Keep it true.
+  http_only: true
 
 hasher:
+  # bcrypt cost factor used when hashing user passwords (valid range: 4-31).
+  # Each +1 doubles the hashing time. 10 is the library default (roughly 60-100 ms);
+  # 12 is a common choice for production (roughly 250-350 ms).
+  # Changing it affects only newly created hashes: existing hashes keep working,
+  # because the cost is embedded in each hash string.
   cost: 10
